@@ -1,6 +1,5 @@
 // Library
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import { gsap } from "gsap"
+import { useState, useEffect} from 'react'
 
 // Import Components
 import Board from './components/Board.js'
@@ -82,7 +81,6 @@ function App() {
 
             </div>
   })
-
 
 
 
@@ -180,7 +178,6 @@ function App() {
 
 
 
-
   //------------------Use Effect----------------------------------
   useEffect(() => {
 
@@ -223,47 +220,18 @@ function App() {
 
 
 
-
-
-  //------------------Use Ref---------------------------------------
-  const winLineRef = useRef(null);
-
-
-
-  //------------------UseLayoutEffect-----------------------------------
-  useLayoutEffect(() => {
-      console.log(winLineRef)
-      if (winLineRef.current == null ) { return }
-      // Get the line and its length
-      const line = winLineRef.current.querySelector('line')
-      const length = line.getTotalLength();
-      console.log(line, length)
-      
-      // Animate the line
-      gsap.set(line, {strokeDasharray: length, strokeDashoffset: length})
-      gsap.to(line, {strokeDashoffset: 0, duration: 2})
-
-  }, [winPath]);
-
   
   //--------------------Render--------------------------
   return (
-    <>
-      <div className="App">
-        <h1 className="App-header">Tic-Tac-Toe</h1>
-        <Board boxElements={boxElements} />
-        {/* Winner information */}
-        {gameState.winner && <p>{gameState.winner} won the game</p>}
-        <button onClick={clearGrid}>Restart</button>
-      </div>
+    <div className="App">
+      <h1 className="App-header">Tic-Tac-Toe</h1>
+      <Board boxElements={boxElements} showWinLine={gameState.showWinLine} winPath={winPath}/>
 
-      {/* SVG Line gameState.showWinLine && */}
-      {gameState.showWinLine && 
-        <svg ref={winLineRef} className="win-line" width="300" height="300">
-            <line x1={winPath.x1} y1={winPath.y1} x2={winPath.x2} y2={winPath.y2} stroke='white' strokeWidth="7"/>
-        </svg>
-      }
-    </>
+      {/* Winner information */}
+      {gameState.winner && <p>{gameState.winner} won the game</p>}
+      
+      <button onClick={clearGrid}>Restart</button>
+    </div>
   );
 }
 
