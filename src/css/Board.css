@@ -1,3 +1,7 @@
+.board{
+    position: relative;
+}
+
 .box{
     width: 100px;
     height: 100px;
@@ -8,4 +12,10 @@
     display: grid;
     grid-template-rows: 100px 100px 100px;
     grid-template-columns: 100px 100px 100px;  
+}
+
+.win-line{
+    position: absolute;
+    top: 0;
+    left: 0;
 }
