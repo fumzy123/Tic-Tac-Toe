@@ -1,18 +1,27 @@
 .board{
     position: relative;
-    /* margin: auto; */
+    margin: 1.5em;
 }
 
 .box{
     width: 100px;
     height: 100px;
     border: 1px solid white;
+
+    border-radius: 5px;
+
+    
+}
+
+.box:hover{
+    cursor: pointer;
 }
 
 .grid{
     display: grid;
     grid-template-rows: 100px 100px 100px;
-    grid-template-columns: 100px 100px 100px;  
+    grid-template-columns: 100px 100px 100px;
+    gap: 10px;
 }
 
 .win-line{

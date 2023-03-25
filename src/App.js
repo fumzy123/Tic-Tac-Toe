@@ -1,5 +1,7 @@
 // Library
-import { useState, useEffect} from 'react'
+import { useState, useRef, useEffect} from 'react'
+import { gsap } from 'gsap'
+import Confetti from 'react-confetti';
 
 // Import Components
 import Board from './components/Board.js'
@@ -66,8 +68,14 @@ function App() {
     y2: "0"
   })
 
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  })
 
 
+  //------------------Use Ref----------------------------------
+  const boxRef = useRef([])
 
   //--------------Data Mapping: Turn an array of Javascript objects into an array of JSX div elements -----------
   const boxElements = boxColors.map((box) =>{
@@ -77,10 +85,12 @@ function App() {
             className='box' 
             style={{backgroundColor: box.color}} 
             onClick={handleClick}
+            ref = {(element) => {boxRef.current.push(element)}}
             >
 
             </div>
   })
+  console.log(boxRef.current)
 
 
 
@@ -218,20 +228,65 @@ function App() {
     
   }, [boxColors])
 
+  useEffect(() => {
+    const boxElements = boxRef.current;
+
+    function scaleDown(box){
+      gsap.to(box, {duration: 0.1, scale: 0.9})
+    }
+    
+    function scaleUp(box){
+      gsap.to(box, {duration: 0.1, scale: 1.0})
+    }
+
+    // Add Event Listners
+    boxElements.forEach( box => {
+      box.addEventListener('mouseenter', () => scaleDown(box))
+      box.addEventListener('mouseleave', () => scaleUp(box))
+    })
+
+    // Update Window Size
+    function handleResize(){
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+
+    
+    window.addEventListener("resize", handleResize)
+
+    // Clean up function
+    return function () {
+      // Remove Event Listeners
+      boxElements.forEach((box) => {
+        box.removeEventListener('mouseenter', () => scaleDown(box))
+        box.removeEventListener('mouseleave', () => scaleUp(box))
+      })
+
+      window.removeEventListener("resize", handleResize)
+    }
+      
+  },[])
 
 
   
   //--------------------Render--------------------------
   return (
-    <div className="App">
-      <h1 className="App-header">Tic-Tac-Toe</h1>
-      <Board boxElements={boxElements} showWinLine={gameState.showWinLine} winPath={winPath}/>
+    <>
+      { gameState.winner && <Confetti width={windowSize.width} height={windowSize.height}/> }
 
-      {/* Winner information */}
-      {gameState.winner && <p>{gameState.winner} won the game</p>}
-      
-      <button onClick={clearGrid}>Restart</button>
-    </div>
+      <div className="App">
+
+        <h1 className="App-header">Tic-Tac-Toe</h1>
+        <Board boxElements={boxElements} showWinLine={gameState.showWinLine} winPath={winPath}/>
+
+        {/* Winner information */}
+        {gameState.winner && <p>{gameState.winner} won the game</p>}
+        
+        <button className='button' onClick={clearGrid}>Restart</button>
+      </div>
+    </>
   );
 }
 

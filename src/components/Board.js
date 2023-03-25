@@ -12,7 +12,7 @@ export default function Board(props){
 
     //--------------UseLayoutEffect (Animate Elements) --------------------
     useLayoutEffect(() => {
-        console.log(winLineRef)
+        // console.log(winLineRef)
         if (winLineRef.current == null ) { return }
 
         // Get the line and its length
@@ -33,7 +33,7 @@ export default function Board(props){
                 {props.boxElements}
                 {
                     props.showWinLine &&
-                    <svg ref={winLineRef} className="win-line" width="300" height="300">
+                    <svg ref={winLineRef} className="win-line" width="320" height="320">
                         <line x1={props.winPath.x1} y1={props.winPath.y1} x2={props.winPath.x2} y2={props.winPath.y2} stroke='white' strokeWidth="7"/>
                     </svg>
                 }

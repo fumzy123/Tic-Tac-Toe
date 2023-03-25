@@ -5,12 +5,38 @@
 
 body{
   color: white;
-  background-color: #282c34;
+  background-color: #0b5dff;
 }
 
 .App{
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
+
+h1{
+  margin-top: 1em;
+}
+
+.button{
+  margin: 1.5em;
+
+  width: 100px;
+  height: 50px;
+
+  border-width: 0px;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  background-color: #5035FF;
+  color: white;
+  box-shadow: 0px 3.2px 7.68px rgba(0, 0, 0, 0.18);
+}
+
+.button:active{
+  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
+}
+
